@@ -18,7 +18,7 @@ dependencies {
 }
 tasks.withType<Jar> {
     manifest {
-        attributes["mainClass"] = "ru.boringowl.common.CommonApplicationKt"
+        attributes["mainClass"] = "ru.micro.common.CommonApplicationKt"
     }
 }
 

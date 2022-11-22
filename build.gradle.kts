@@ -1,5 +1,4 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 buildscript {
     repositories {
@@ -19,7 +18,7 @@ plugins {
 }
 
 allprojects {
-    group = "ru.boringowl"
+    group = "ru.micro"
     version = "1.0.0"
 
     tasks.withType<JavaCompile> {

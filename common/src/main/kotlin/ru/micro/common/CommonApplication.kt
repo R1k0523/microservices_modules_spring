@@ -1,4 +1,4 @@
-package ru.boringowl.test
+package ru.micro.common
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
@@ -7,15 +7,15 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @SpringBootApplication
-class TestApplication
+class CommonApplication
 
 fun main(args: Array<String>) {
-    runApplication<TestApplication>(*args)
+    runApplication<CommonApplication>(*args)
 }
 
 @RestController
 @RequestMapping("")
-class TestApplicationWeb {
+class CommonApplicationWeb {
     @GetMapping
     fun test(): String = javaClass.canonicalName
 }
