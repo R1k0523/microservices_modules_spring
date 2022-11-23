@@ -1,13 +1,11 @@
 plugins {
     id("org.springframework.boot")
-    id("io.spring.dependency-management")
-
     kotlin("jvm")
     kotlin("plugin.spring")
+    id("io.spring.dependency-management")
 }
 
 dependencies {
-//    implementation(project(":test"))
     implementation(kotlin("reflect"))
     implementation(kotlin("stdlib-jdk8"))
     implementation("org.springframework.boot:spring-boot-starter")
