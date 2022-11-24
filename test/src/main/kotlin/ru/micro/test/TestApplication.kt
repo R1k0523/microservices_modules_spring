@@ -17,5 +17,6 @@ fun main(args: Array<String>) {
 @RequestMapping("")
 class TestApplicationWeb {
     @GetMapping
-    fun test(): String = javaClass.canonicalName
+    fun test() = Message("I am OK")
 }
+class Message(val msg: String)

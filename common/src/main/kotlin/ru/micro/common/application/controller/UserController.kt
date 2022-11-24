@@ -45,15 +45,13 @@ class UserController(val service: UserService) {
             throw CustomException.NotFound
         }
     }
-
-
     @GetMapping
     fun get(): ListResponse<User> = ListResponse(service.get())
-
     @GetMapping("/{id}")
     fun get(@PathVariable id: UUID): User =
         service.get(id) ?: throw CustomException.NotFound
-
+    @GetMapping("gen") //TO DELETE
+    fun genUser(): User? = add(User.random())
     @ExceptionHandler(CustomException::class)
     fun handleException(e: CustomException): Response? {
         return Response().apply {
@@ -61,7 +59,4 @@ class UserController(val service: UserService) {
             status = e.rawStatusCode
         }
     }
-
-    @GetMapping("gen") //TO DELETE
-    fun genUser(): User? = add(User.random())
 }

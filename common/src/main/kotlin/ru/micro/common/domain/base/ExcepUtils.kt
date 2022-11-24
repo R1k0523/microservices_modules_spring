@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.server.ResponseStatusException
 
 sealed class CustomException(status: HttpStatus, msg: String): ResponseStatusException(status, msg) {
-    object InvalidCreds: CustomException(HttpStatus.UNAUTHORIZED, "Неверные имя пользователя или пароль")
+    object InvalidCreds: CustomException(HttpStatus.BAD_REQUEST, "Неверные имя пользователя или пароль")
     object NotFound: CustomException(HttpStatus.NOT_FOUND, "Запись не найдена")
     object Forbidden: CustomException(HttpStatus.FORBIDDEN, "Нет доступа")
     object Unauthorized: CustomException(HttpStatus.UNAUTHORIZED, "Токен не валиден")

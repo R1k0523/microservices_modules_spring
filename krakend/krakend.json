@@ -1,0 +1,147 @@
+{
+  "version": 3,
+  "endpoints": [
+    {
+      "endpoint": "/",
+      "method": "GET",
+      "extra_config": {},
+      "backend": [
+        {
+          "host": [
+            "common:8080"
+          ],
+          "method": "GET",
+          "url_pattern": "/user"
+        }
+      ]
+    },
+    {
+      "endpoint": "/gen",
+      "method": "GET",
+      "extra_config": {},
+      "backend": [
+        {
+          "host": [
+            "common:8080"
+          ],
+          "method": "GET",
+          "url_pattern": "/user/gen"
+        }
+      ]
+    },
+    {
+      "endpoint": "/",
+      "method": "POST",
+      "extra_config": {
+      },
+      "backend": [
+        {
+          "host": [
+            "common:8080"
+          ],
+
+          "method": "POST",
+          "url_pattern": "/user/",
+          "extra_config": {
+            "backend/http": {
+              "return_error_details": "user_info"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "endpoint": "/",
+      "method": "PATCH",
+      "extra_config": {},
+      "backend": [
+        {
+          "host": [
+            "common:8080"
+          ],
+          "method": "PATCH",
+          "url_pattern": "/user/"
+        }
+      ]
+    },
+    {
+      "endpoint": "/{id}",
+      "method": "DELETE",
+      "extra_config": {},
+      "backend": [
+        {
+          "host": [
+            "common:8080"
+          ],
+          "method": "DELETE",
+          "url_pattern": "/user/{id}"
+        }
+      ]
+    },
+    {
+      "endpoint": "/{id}",
+      "method": "GET",
+      "extra_config": {},
+      "backend": [
+        {
+          "host": [
+            "common:8080"
+          ],
+          "method": "GET",
+          "url_pattern": "/user/{id}",
+          "extra_config": {
+            "backend/http": {
+              "return_error_details": "backend_a"
+            }
+          }
+        },
+        {
+          "host": [
+            "https://dog.ceo"
+          ],
+          "method": "GET",
+          "url_pattern": "/api/breeds/image/random",
+          "allow": [
+            "message"
+          ],
+          "mapping": {
+            "message": "image"
+          }
+        }
+      ]
+    },
+    {
+      "endpoint": "/merge",
+      "method": "GET",
+      "extra_config": {},
+      "backend": [
+        {
+          "host": [
+            "common:8080"
+          ],
+          "method": "GET",
+          "url_pattern": "/"
+        },
+        {
+          "host": [
+            "test:8080"
+          ],
+          "method": "GET",
+          "url_pattern": "/"
+        }
+      ]
+    }
+  ],
+
+  "extra_config": {
+    "github_com/devopsfaith/krakend-cors": {
+      "allow_methods": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "PATCH"
+      ]
+    }
+  }
+}
