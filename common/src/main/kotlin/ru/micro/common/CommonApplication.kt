@@ -16,6 +16,18 @@ fun main(args: Array<String>) {
 @RestController
 @RequestMapping("")
 class CommonApplicationWeb {
-    @GetMapping
-    fun test(): String = javaClass.canonicalName
+    @GetMapping("/two")
+    fun test() = MessageResponse()
 }
+
+data class MessageResponse(
+    val message: String = "не буду я тебя ведать!!!!",
+    val boris: Pepe = Pepe()
+)
+
+data class Pepe(
+    val boris: String = "boris",
+    val boris1: String = "boris1",
+    val boris3: String = "boris2",
+    val boris4: String = "boris3",
+)

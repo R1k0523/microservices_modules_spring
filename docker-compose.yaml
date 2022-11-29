@@ -7,6 +7,7 @@ services:
       dockerfile: ./common/Dockerfile
     ports:
       - "8081:8080"
+
   test:
     image: micro/test
     build:
@@ -14,3 +15,68 @@ services:
       dockerfile: ./test/Dockerfile
     ports:
       - "8082:8080"
+
+  krakend_ce:
+    # The :watch image restarts the service automatically when the configuration files change.
+    # Do not use this image in production, it's meant to speed up your testing and development.
+    image: devopsfaith/krakend:2.1.3
+    volumes:
+      - ./config/krakend:/etc/krakend
+    ports:
+      - "8083:8080"
+    command: ["run", "-d", "-c", "/etc/krakend/krakend.json"]
+    depends_on:
+      - jaeger
+
+  jaeger:
+    image: jaegertracing/all-in-one:1
+    ports:
+      - "16686:16686"
+      - "14268:14268"
+
+  grafana:
+    image: grafana/grafana:9.1.2
+    ports:
+      - "4000:3000"
+    volumes:
+      # - "./config/grafana/datasources/all.yml:/etc/grafana/provisioning/datasources/all.yml"
+      # - "./config/grafana/dashboards/all.yml:/etc/grafana/provisioning/dashboards/all.yml"
+      - "./config/grafana/krakend:/var/lib/grafana/dashboards/krakend"
+  
+  postgres:
+    image: postgres:latest
+    #restart: always
+    volumes:
+      - ./psql_data:/var/lib/postgresql/data1:rw
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - 9090:9090
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+  
+  postgres-exporter:
+    image: prometheuscommunity/postgres-exporter
+    ports:
+      - 9187:9187
+    environment:
+      DATA_SOURCE_NAME: "postgresql://postgres:postgres@postgres:5432/postgres?sslmode=disable"
+    links:
+      - postgres
+      - prometheus
+
+

@@ -1,0 +1,45 @@
+{
+  "version": 3,
+  "endpoints": [
+    {
+      "endpoint": "/outer",
+      "method": "GET",
+      "extra_config": {
+        "qos/ratelimit/router": {
+          "max_rate": 5000
+        }
+      },
+      "backend":
+      [{
+        "host": [
+          "https://catfact.ninja"
+        ],
+        "method": "GET",
+        "url_pattern": "/fact"
+      }]
+    },
+    {
+      "endpoint": "/local",
+      "method": "GET",
+      "extra_config": {
+        "qos/ratelimit/router": {
+          "max_rate": 5000
+        }
+      },
+      "backend":
+      [{
+        "host": [
+          "host.docker.internal:8081"
+        ],
+        "method": "GET",
+        "url_pattern": "/two"
+      },
+        {
+          "host": [
+            "host.docker.internal:8082"
+          ],
+          "method": "GET",
+          "url_pattern": "/one"
+        }]
+    }]
+}

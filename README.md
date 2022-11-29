@@ -4,3 +4,4 @@
 ```
 docker-compose up
 ```
+Пример доски grafana для импорта: 12273

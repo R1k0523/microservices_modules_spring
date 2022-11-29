@@ -1,8 +1,8 @@
-FROM openjdk:15-jdk-alpine AS build
+FROM gradle:7.1.1-jdk16-hotspot AS build
 WORKDIR /app
-COPY .. .
+COPY ../ .
 RUN chmod +x ./gradlew
-RUN ./gradlew :common:bootJar
+RUN gradle :common:bootJar
 
 FROM openjdk:15-jdk-alpine
 EXPOSE 8080
