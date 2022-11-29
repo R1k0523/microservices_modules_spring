@@ -1,0 +1,39 @@
+receivers:
+  jaeger:
+    protocols:
+      grpc:
+      thrift_binary:
+      thrift_compact:
+      thrift_http:
+        endpoint: "0.0.0.0:14278"
+  otlp/spanmetrics:
+    protocols:
+      grpc:
+        endpoint: "localhost:65535"
+exporters:
+  otlp:
+    endpoint: "promscale:9202"
+    tls:
+      insecure: true
+    sending_queue:
+      queue_size: 1000000
+    timeout: 10s
+  prometheus:
+    endpoint: "0.0.0.0:8889"
+  jaeger:
+    endpoint: "jaeger:14250" # using the docker-compose name of the jaeger container
+    tls:
+      insecure: true
+processors:
+  batch:
+  spanmetrics:
+    metrics_exporter: prometheus
+service:
+  pipelines:
+    traces:
+      receivers: [jaeger]
+      processors: [spanmetrics, batch]
+      exporters: [jaeger]
+    metrics/spanmetrics:
+          receivers: [otlp/spanmetrics]
+          exporters: [prometheus]
